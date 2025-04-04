@@ -1,0 +1,25 @@
+on:
+  push:
+    branches: [main]
+name: Push beta image
+env:
+  IMAGE_NAME: django_base_bullseye
+jobs:
+  main_image_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Log into Github Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u {{github.actor}} --password-stdin
+      - name: Creamos la imagen base de trabajo
+        run: docker build -t django_base  .
+      - name: set lower case owner name
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+        env:
+          OWNER: "${{ github.repository_owner }}"
+
+      - name: push image Github Container Registry
+        run: | 
+          docker image tag django_base ghcr.io/$OWNER_LC/$IMAGE_NAME:latest
+          docker push ghcr.io/$OWNER_LC/$IMAGE_NAME:latest
