@@ -15,6 +15,7 @@ pytest-django==4.5.2
 drf-yasg==1.21.5
 google-genai==1.2.0
 hdbcli==2.24.21
+docxtpl==0.20.1
 
 
 
