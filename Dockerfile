@@ -41,7 +41,7 @@ RUN apt-get update \
 
 # Copiar e instalar dependencias Python
 COPY requirements.txt .
-RUN pip install --upgrade pip setuptools wheel \
+RUN pip install --upgrade pip "setuptools<81" wheel \
     && pip install -r requirements.txt
 
 # (Opcional) Instalar LibreOffice si tu aplicación genera/convierte documentos
